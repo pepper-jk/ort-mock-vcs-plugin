@@ -1,4 +1,4 @@
-package org.ossreviewtoolkit.plugins.versioncontrolsystems.dummy
+package org.ossreviewtoolkit.plugins.versioncontrolsystems.mock
 
 import java.io.File
 
@@ -6,7 +6,7 @@ import org.ossreviewtoolkit.downloader.WorkingTree
 import org.ossreviewtoolkit.model.VcsInfo
 import org.ossreviewtoolkit.model.VcsType
 
-internal open class DummyWorkingTree(workingDir: File, vcsType: VcsType) : WorkingTree(workingDir, vcsType) {
+internal open class MockWorkingTree(workingDir: File, vcsType: VcsType) : WorkingTree(workingDir, vcsType) {
 
     override fun isValid(): Boolean = true
 

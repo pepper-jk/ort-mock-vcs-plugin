@@ -1,4 +1,4 @@
-package org.ossreviewtoolkit.plugins.versioncontrolsystems.dummy
+package org.ossreviewtoolkit.plugins.versioncontrolsystems.mock
 
 import java.io.File
 
@@ -12,13 +12,13 @@ import org.ossreviewtoolkit.utils.common.CommandLineTool
 import org.ossreviewtoolkit.utils.common.ProcessCapture
 import kotlin.io.path.ExperimentalPathApi
 
-object DummyCommand : CommandLineTool {
+object MockCommand : CommandLineTool {
     override fun command(workingDir: File?) = ""
 
     // we do not need this, but override it, so nothing gets executed by accident
     override fun transformVersion(output: String): String = ""
 
-    override fun displayName(): String = "Dummy"
+    override fun displayName(): String = "Mock"
 
     override fun isInPath(): Boolean = true
 
@@ -31,7 +31,7 @@ object DummyCommand : CommandLineTool {
     }
 }
 
-class Dummy : VersionControlSystem(DummyCommand) {
+class MockVcs : VersionControlSystem(MockCommand) {
     override val type = VcsType.UNKNOWN.toString()
     override val priority = 0
     override val latestRevisionNames = listOf("HEAD", "@")
@@ -40,7 +40,7 @@ class Dummy : VersionControlSystem(DummyCommand) {
 
     override fun getDefaultBranchName(url: String) = ""
 
-    override fun getWorkingTree(vcsDirectory: File): WorkingTree = DummyWorkingTree(vcsDirectory, VcsType.forName(type))
+    override fun getWorkingTree(vcsDirectory: File): WorkingTree = MockWorkingTree(vcsDirectory, VcsType.forName(type))
 
     override fun isApplicableUrlInternal(vcsUrl: String): Boolean = true
 
