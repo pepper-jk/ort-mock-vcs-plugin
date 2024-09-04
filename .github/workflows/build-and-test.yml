@@ -1,0 +1,63 @@
+name: Build and Test
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.daemon=false -Dkotest.assertions.multi-line-diff=unified
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@16bf8bc8fe830fa669c3c9f914d3eb147c629707 # v4
+      with:
+        gradle-home-cache-cleanup: true
+    - name: Build all classes
+      run: ./gradlew classes
+  codeql-analysis:
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      # Needed for SARIF scanning upload.
+      security-events: write
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@4dd16135b69a43b6c8efb853346f8437d92d3c93 # v3
+      with:
+        languages: java
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@16bf8bc8fe830fa669c3c9f914d3eb147c629707 # v4
+      with:
+        gradle-home-cache-cleanup: true
+    - name: Build all classes
+      run: ./gradlew -Dorg.gradle.jvmargs=-Xmx1g classes
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@4dd16135b69a43b6c8efb853346f8437d92d3c93 # v3
+  test:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@16bf8bc8fe830fa669c3c9f914d3eb147c629707 # v4
+      with:
+        gradle-home-cache-cleanup: true
+    - name: Run tests
+      run: ./gradlew --scan test funTest
+    - name: Create Test Summary
+      uses: test-summary/action@31493c76ec9e7aa675f1585d3ed6f1da69269a86 # v2
+      with:
+        paths: "**/test-results/**/TEST-*.xml"
+      if: always()

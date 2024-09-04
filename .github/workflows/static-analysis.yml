@@ -1,0 +1,46 @@
+name: Static Analysis
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.daemon=false
+
+jobs:
+  commit-lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          fetch-depth: 0
+      - name: Check Commit Messages
+        uses: wagoid/commitlint-github-action@a2bc521d745b1ba127ee2f8b02d6afaa4eed035c # v6
+        with:
+          configFile: .commitlintrc.yml
+  detekt-issues:
+    runs-on: ubuntu-22.04
+    permissions:
+      # Needed for SARIF scanning upload.
+      security-events: write
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@16bf8bc8fe830fa669c3c9f914d3eb147c629707 # v4
+      with:
+        gradle-home-cache-cleanup: true
+    - name: Check for Detekt Issues
+      run: ./gradlew detekt
+    - name: Check for Detekt Issues with type resolution
+      run: ./gradlew detektMain detektTest detektFunTest
+    - name: Upload SARIF File
+      uses: github/codeql-action/upload-sarif@4dd16135b69a43b6c8efb853346f8437d92d3c93 # v3
+      if: always() # Upload even if the previous step failed.
+      with:
+        sarif_file: build/reports/detekt/detekt.sarif

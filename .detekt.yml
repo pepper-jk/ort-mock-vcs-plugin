@@ -1,0 +1,13 @@
+formatting:
+  ImportOrdering:
+    active: false
+
+naming:
+  InvalidPackageDeclaration:
+    active: false
+
+ORT:
+  OrtImportOrder:
+    active: true
+  OrtPackageNaming:
+    active: false

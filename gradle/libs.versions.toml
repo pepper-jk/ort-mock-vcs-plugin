@@ -1,0 +1,31 @@
+[versions]
+detektPlugin = "1.23.6"
+ideaExtPlugin = "1.1.8"
+kotlinPlugin = "2.0.20"
+shadowPlugin = "8.1.1"
+
+kotest = "5.9.1"
+log4jApi = "2.23.1"
+log4jApiKotlin = "1.5.0"
+logback = "1.5.7"
+ort = "30.0.0"
+
+[plugins]
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektPlugin" }
+ideaExt = { id = "org.jetbrains.gradle.plugin.idea-ext", version.ref = "ideaExtPlugin" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPlugin" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadowPlugin" }
+
+[libraries]
+detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektPlugin" }
+kotestAssertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotestRunnerJunit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+log4jApiKotlin = { module = "org.apache.logging.log4j:log4j-api-kotlin", version.ref = "log4jApiKotlin" }
+log4jApiToSlf4j = { module = "org.apache.logging.log4j:log4j-to-slf4j", version.ref = "log4jApi" }
+logbackClassic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+ortAnalyzer = { module = "org.ossreviewtoolkit:analyzer", version.ref = "ort" }
+ortAnalyzerCommand = { module = "org.ossreviewtoolkit.plugins.commands:analyzer-command", version.ref = "ort" }
+ortCli = { module = "org.ossreviewtoolkit:cli", version.ref = "ort" }
+ortDetektRules = { module = "org.ossreviewtoolkit:detekt-rules", version.ref = "ort" }
+ortModel = { module = "org.ossreviewtoolkit:model", version.ref = "ort" }
+ortTestUtils = { module = "org.ossreviewtoolkit.utils:test-utils", version.ref = "ort" }
