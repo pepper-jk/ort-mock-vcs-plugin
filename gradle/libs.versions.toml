@@ -23,6 +23,7 @@ kotestRunnerJunit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = 
 log4jApiKotlin = { module = "org.apache.logging.log4j:log4j-api-kotlin", version.ref = "log4jApiKotlin" }
 log4jApiToSlf4j = { module = "org.apache.logging.log4j:log4j-to-slf4j", version.ref = "log4jApi" }
 logbackClassic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+ortDownloader = { module = "org.ossreviewtoolkit:downloader", version.ref = "ort" }
 ortAnalyzer = { module = "org.ossreviewtoolkit:analyzer", version.ref = "ort" }
 ortAnalyzerCommand = { module = "org.ossreviewtoolkit.plugins.commands:analyzer-command", version.ref = "ort" }
 ortCli = { module = "org.ossreviewtoolkit:cli", version.ref = "ort" }

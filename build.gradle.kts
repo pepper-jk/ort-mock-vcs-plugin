@@ -119,6 +119,7 @@ kotlin.target.compilations.apply {
 }
 
 dependencies {
+    compileOnlyApi(libs.ortDownloader)
     compileOnlyApi(libs.ortAnalyzer)
     compileOnlyApi(libs.ortModel)
 
