@@ -17,4 +17,4 @@
  * License-Filename: LICENSE
  */
 
-rootProject.name = "MyPackageManager"
+rootProject.name = "MockVcsPlugin"
