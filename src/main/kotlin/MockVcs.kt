@@ -2,6 +2,7 @@ package org.ossreviewtoolkit.plugins.versioncontrolsystems.mock
 
 import java.io.File
 
+import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.copyToRecursively
 
 import org.ossreviewtoolkit.downloader.VersionControlSystem
@@ -10,7 +11,6 @@ import org.ossreviewtoolkit.model.VcsInfo
 import org.ossreviewtoolkit.model.VcsType
 import org.ossreviewtoolkit.utils.common.CommandLineTool
 import org.ossreviewtoolkit.utils.common.ProcessCapture
-import kotlin.io.path.ExperimentalPathApi
 
 object MockCommand : CommandLineTool {
     override fun command(workingDir: File?) = ""
