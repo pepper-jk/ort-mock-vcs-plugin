@@ -19,11 +19,17 @@
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
+import io.gitlab.arturbosch.detekt.Detekt
+
 import org.jetbrains.gradle.ext.GradleTask
 import org.jetbrains.gradle.ext.JarApplication
 import org.jetbrains.gradle.ext.runConfigurations
 import org.jetbrains.gradle.ext.settings
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+val javaLanguageVersion: String by project
 
 plugins {
     // Apply core plugins.
@@ -44,6 +50,23 @@ repositories {
 configurations {
     // Create an extended configuration with the analyzer CLI to run the plugin from an IDEA run configuration.
     resolvable("analyzerCliClasspath").get().extendsFrom(project.configurations["runtimeClasspath"])
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(javaLanguageVersion)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
+}
+
+val maxKotlinJvmTarget = runCatching { JvmTarget.fromTarget(javaLanguageVersion) }
+    .getOrDefault(enumValues<JvmTarget>().max())
+
+tasks.withType<KotlinCompile> {
+    compilerOptions {
+        allWarningsAsErrors = true
+        jvmTarget = maxKotlinJvmTarget
+    }
 }
 
 val shadowJar = tasks.named<ShadowJar>("shadowJar") {
@@ -140,4 +163,15 @@ dependencies {
 detekt {
     config.from(files(".detekt.yml"))
     buildUponDefaultConfig = true
+}
+
+tasks.withType<Detekt>().configureEach {
+     jvmTarget = maxKotlinJvmTarget.target
+
+    reports {
+        xml.required.set(false)
+        html.required.set(false)
+        txt.required.set(false)
+        sarif.required.set(true)
+    }
 }
