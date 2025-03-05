@@ -3,9 +3,12 @@ package org.ossreviewtoolkit.plugins.versioncontrolsystems.mock
 import java.io.File
 
 import org.ossreviewtoolkit.downloader.VersionControlSystem
+import org.ossreviewtoolkit.downloader.VersionControlSystemFactory
 import org.ossreviewtoolkit.downloader.WorkingTree
 import org.ossreviewtoolkit.model.VcsInfo
 import org.ossreviewtoolkit.model.VcsType
+import org.ossreviewtoolkit.plugins.api.OrtPlugin
+import org.ossreviewtoolkit.plugins.api.PluginDescriptor
 import org.ossreviewtoolkit.utils.common.CommandLineTool
 import org.ossreviewtoolkit.utils.common.ProcessCapture
 
@@ -28,16 +31,26 @@ object MockCommand : CommandLineTool {
     }
 }
 
-class MockVcs : VersionControlSystem(MockCommand) {
-    override val type = VcsType.UNKNOWN.toString()
+@OrtPlugin(
+    displayName = "MockVCS",
+    description = "A VCS implementation, that acts as a fallback, should no supported VCS be detected.",
+    factory = VersionControlSystemFactory::class
+)
+class MockVcs(
+    override val descriptor: PluginDescriptor,
+    private val config: MockConfig
+) : VersionControlSystem() {
+    override val type = VcsType.UNKNOWN
     override val priority = 0
     override val latestRevisionNames = listOf("HEAD", "@")
 
-    override fun getVersion() = ""
+    override fun getVersion() = config.mockVersion
 
-    override fun getDefaultBranchName(url: String) = ""
+    override fun getDefaultBranchName(url: String) = config.mockDefaultBranchName
 
-    override fun getWorkingTree(vcsDirectory: File): WorkingTree = MockWorkingTree(vcsDirectory, VcsType.forName(type))
+    override fun getWorkingTree(vcsDirectory: File): WorkingTree = MockWorkingTree(vcsDirectory, type)
+
+    override fun isAvailable(): Boolean = MockCommand.isInPath()
 
     override fun isApplicableUrlInternal(vcsUrl: String): Boolean = true
 
@@ -51,5 +64,5 @@ class MockVcs : VersionControlSystem(MockCommand) {
         revision: String,
         path: String,
         recursive: Boolean
-    ): Result<String> = Result<String>.success(revision)
+    ): Result<String> = Result.success(revision)
 }
