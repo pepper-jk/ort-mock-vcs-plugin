@@ -1,20 +1,20 @@
 [versions]
-detektPlugin = "1.23.6"
-ideaExtPlugin = "1.1.8"
-kotlinPlugin = "2.0.20"
-shadowPlugin = "8.1.1"
+detektPlugin = "1.23.8"
+ideaExtPlugin = "1.1.10"
+kotlinPlugin = "2.1.10"
+shadowPlugin = "8.3.6"
 
 kotest = "5.9.1"
-log4jApi = "2.23.1"
+log4jApi = "2.24.3"
 log4jApiKotlin = "1.5.0"
-logback = "1.5.7"
-ort = "30.0.0"
+logback = "1.5.17"
+ort = "52.1.0"
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektPlugin" }
 ideaExt = { id = "org.jetbrains.gradle.plugin.idea-ext", version.ref = "ideaExtPlugin" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPlugin" }
-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadowPlugin" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadowPlugin" }
 
 [libraries]
 detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektPlugin" }
