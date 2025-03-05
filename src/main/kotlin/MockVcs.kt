@@ -2,9 +2,6 @@ package org.ossreviewtoolkit.plugins.versioncontrolsystems.mock
 
 import java.io.File
 
-import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.copyToRecursively
-
 import org.ossreviewtoolkit.downloader.VersionControlSystem
 import org.ossreviewtoolkit.downloader.WorkingTree
 import org.ossreviewtoolkit.model.VcsInfo
@@ -44,9 +41,8 @@ class MockVcs : VersionControlSystem(MockCommand) {
 
     override fun isApplicableUrlInternal(vcsUrl: String): Boolean = true
 
-    @OptIn(ExperimentalPathApi::class)
     override fun initWorkingTree(targetDir: File, vcs: VcsInfo): WorkingTree {
-        File(vcs.url).toPath().copyToRecursively(targetDir.toPath(), followLinks = false, overwrite = true)
+        File(vcs.url).copyRecursively(targetDir, overwrite = true)
         return getWorkingTree(targetDir)
     }
 
