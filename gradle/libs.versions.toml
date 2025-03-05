@@ -26,6 +26,7 @@ logbackClassic = { module = "ch.qos.logback:logback-classic", version.ref = "log
 ortDownloader = { module = "org.ossreviewtoolkit:downloader", version.ref = "ort" }
 ortAnalyzer = { module = "org.ossreviewtoolkit:analyzer", version.ref = "ort" }
 ortAnalyzerCommand = { module = "org.ossreviewtoolkit.plugins.commands:analyzer-command", version.ref = "ort" }
+ortPluginApi = { module = "org.ossreviewtoolkit.plugins:api", version.ref = "ort" }
 ortCli = { module = "org.ossreviewtoolkit:cli", version.ref = "ort" }
 ortDetektRules = { module = "org.ossreviewtoolkit:detekt-rules", version.ref = "ort" }
 ortModel = { module = "org.ossreviewtoolkit:model", version.ref = "ort" }
