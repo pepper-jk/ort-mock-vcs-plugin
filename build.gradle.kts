@@ -40,6 +40,7 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ideaExt)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.shadow)
 }
 
@@ -151,6 +152,9 @@ dependencies {
     detektPlugins(libs.ortDetektRules)
 
     implementation(libs.log4jApiKotlin)
+
+    ksp(libs.ortAnalyzer)
+    ksp(libs.ortPluginCompiler)
 
     "analyzerCliClasspath"(libs.ortAnalyzerCommand)
     "analyzerCliClasspath"(libs.ortCli)
